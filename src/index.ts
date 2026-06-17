@@ -1,3 +1,7 @@
+import type {
+	ExecutionContext,
+	ScheduledController,
+} from "@cloudflare/workers-types";
 import { config } from "./config";
 import { syncUserDiscordWidget } from "./services/discord.service";
 import { fetchProfileStatistics } from "./services/roblox.service";
@@ -16,5 +20,12 @@ async function initialize(): Promise<void> {
 	}
 }
 
-// System daemon entry point
-initialize();
+export default {
+	async scheduled(
+		_event: ScheduledController,
+		_env: unknown,
+		ctx: ExecutionContext,
+	): Promise<void> {
+		ctx.waitUntil(initialize());
+	},
+};
