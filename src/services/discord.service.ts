@@ -1,11 +1,12 @@
 import axios from "axios";
-import { config } from "../config";
+import type { EnvironmentConfig } from "../config";
 import type { DiscordWidgetPayload } from "../types/discord";
 import type { NormalizedRobloxStats } from "../types/roblox";
 
 export async function syncUserDiscordWidget(
 	discordId: string,
 	stats: NormalizedRobloxStats,
+	config: EnvironmentConfig,
 ): Promise<void> {
 	const dynamicData: DiscordWidgetPayload["data"]["dynamic"] = [
 		{ type: 1, name: "username", value: `@${stats.username}` },

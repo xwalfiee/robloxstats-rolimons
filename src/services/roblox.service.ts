@@ -1,29 +1,30 @@
 import axios from "axios";
-import { config } from "../config";
+import type { EnvironmentConfig } from "../config";
 import type { NormalizedRobloxStats } from "../types/roblox";
-
-const ROBLOX_COOKIE = config.robloxCookie;
 
 const USERS_BASE_URL = "https://users.roblox.com/v1";
 const THUMB_BASE_URL = "https://thumbnails.roblox.com/v1";
 const PRESENCE_BASE_URL = "https://presence.roblox.com/v1";
 const FRIENDS_BASE_URL = "https://friends.roblox.com/v1";
 
-// shared client (cookie auth)
-const roblox = axios.create({
-	headers: {
-		Cookie: `.ROBLOSECURITY=${ROBLOX_COOKIE}`,
-		"Content-Type": "application/json",
-		Accept: "application/json",
-	},
-});
-
 /**
  * Fetches Roblox profile + presence + social stats.
  */
-export async function fetchProfileStatistics(): Promise<NormalizedRobloxStats> {
+export async function fetchProfileStatistics(
+	config: EnvironmentConfig,
+): Promise<NormalizedRobloxStats> {
 	try {
+		const ROBLOX_COOKIE = config.robloxCookie;
 		const userId = config.robloxUserId;
+
+		// shared client (cookie auth)
+		const roblox = axios.create({
+			headers: {
+				Cookie: `.ROBLOSECURITY=${ROBLOX_COOKIE}`,
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
+		});
 
 		// user info
 		const userRes = await axios.get(`${USERS_BASE_URL}/users/${userId}`);

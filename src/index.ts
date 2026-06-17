@@ -2,16 +2,17 @@ import type {
 	ExecutionContext,
 	ScheduledController,
 } from "@cloudflare/workers-types";
-import { config } from "./config";
+import { loadAndValidateConfig } from "./config";
 import { syncUserDiscordWidget } from "./services/discord.service";
 import { fetchProfileStatistics } from "./services/roblox.service";
 
-async function initialize(): Promise<void> {
+async function initialize(env: unknown): Promise<void> {
 	console.log(`[INFO] [${new Date().toISOString()}] Starting sync.`);
 
 	try {
-		const statistics = await fetchProfileStatistics();
-		await syncUserDiscordWidget(config.discordUserId, statistics);
+		const config = loadAndValidateConfig(env);
+		const statistics = await fetchProfileStatistics(config);
+		await syncUserDiscordWidget(config.discordUserId, statistics, config);
 		console.log(`[INFO] [${new Date().toISOString()}] Initial sync completed.`);
 	} catch (error) {
 		console.error(
@@ -23,9 +24,9 @@ async function initialize(): Promise<void> {
 export default {
 	async scheduled(
 		_event: ScheduledController,
-		_env: unknown,
+		env: unknown,
 		ctx: ExecutionContext,
 	): Promise<void> {
-		ctx.waitUntil(initialize());
+		ctx.waitUntil(initialize(env));
 	},
 };
