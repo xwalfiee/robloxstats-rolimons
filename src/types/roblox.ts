@@ -22,7 +22,7 @@ export interface NormalizedRobloxStats {
 	readonly user_followers: number;
 	readonly user_following: number;
 
-	readonly user_status: "In Game" | "Online" | "Offline";
+	readonly user_status: "In Game" | "Online" | "Offline" | "In Studio";
 	readonly user_join_date: string;
 	readonly rolimons_rap: number;
 

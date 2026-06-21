@@ -8,7 +8,7 @@ const PRESENCE_BASE_URL = "https://presence.roblox.com/v1";
 const FRIENDS_BASE_URL = "https://friends.roblox.com/v1";
 const BADGE_BASE_URL =
 	"https://raw.githubusercontent.com/xwalfiee/robloxstats-rolimons/main/assets/badges";
-const ROLIMONS_BASE_URL = "https://api.rolimons.com/players/v1/playerinfo";
+const ROLIMONS_BASE_URL = "https://vm.xwalfie.dev:3005/rap";
 
 /**
  * Fetches Roblox profile + presence + social stats.
@@ -73,7 +73,13 @@ export async function fetchProfileStatistics(
 		try {
 			const rolimonsRes = await axios.get(`${ROLIMONS_BASE_URL}/${userId}`);
 			rolimonsRAP = rolimonsRes.data?.rap ?? 0;
-		} catch {
+		} catch (err) {
+			console.error(
+				"Rolimons fetch failed:",
+				axios.isAxiosError(err)
+					? `status=${err.response?.status} data=${JSON.stringify(err.response?.data)}`
+					: String(err),
+			);
 			rolimonsRAP = 0;
 		}
 
@@ -91,9 +97,11 @@ export async function fetchProfileStatistics(
 			user_status:
 				presence?.userPresenceType === 2
 					? "In Game"
-					: presence?.userPresenceType === 1
-						? "Online"
-						: "Offline",
+					: presence?.userPresenceType === 3
+						? "In Studio"
+						: presence?.userPresenceType === 1
+							? "Online"
+							: "Offline",
 
 			user_join_date: new Date(user.created).toLocaleDateString("en-GB", {
 				day: "2-digit",
