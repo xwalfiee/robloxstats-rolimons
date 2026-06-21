@@ -1,5 +1,5 @@
 {
-	"name": "robloxstats",
+	"name": "robloxstats-rolimons",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-06-17",
 	"triggers": {
