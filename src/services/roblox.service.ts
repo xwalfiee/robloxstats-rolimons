@@ -7,7 +7,8 @@ const THUMB_BASE_URL = "https://thumbnails.roblox.com/v1";
 const PRESENCE_BASE_URL = "https://presence.roblox.com/v1";
 const FRIENDS_BASE_URL = "https://friends.roblox.com/v1";
 const BADGE_BASE_URL =
-	"https://raw.githubusercontent.com/xwalfiee/robloxstats/main/assets/badges";
+	"https://raw.githubusercontent.com/xwalfiee/robloxstats-rolimons/main/assets/badges";
+const ROLIMONS_BASE_URL = "https://api.rolimons.com/players/v1/playerinfo";
 
 /**
  * Fetches Roblox profile + presence + social stats.
@@ -70,6 +71,14 @@ export async function fetchProfileStatistics(
 
 		const presence = presenceRes.data.userPresences?.[0];
 
+		let rolimonsRAP = 0;
+		try {
+			const rolimonsRes = await axios.get(`${ROLIMONS_BASE_URL}/${userId}`);
+			rolimonsRAP = rolimonsRes.data?.rap ?? 0;
+		} catch {
+			rolimonsRAP = 0;
+		}
+
 		return {
 			username: user.name,
 			displayName: user.displayName,
@@ -94,7 +103,7 @@ export async function fetchProfileStatistics(
 				year: "numeric",
 			}),
 
-			user_presence: presence?.lastLocation ?? "Unknown",
+			rolimons_rap: rolimonsRAP,
 
 			hasVerifiedBadge: user.hasVerifiedBadge ?? false,
 			badgeIconUrl: user.hasVerifiedBadge

@@ -24,7 +24,7 @@ export interface NormalizedRobloxStats {
 
 	readonly user_status: "In Game" | "Online" | "Offline";
 	readonly user_join_date: string;
-	readonly user_presence: string;
+	readonly rolimons_rap: number;
 
 	readonly hasVerifiedBadge: boolean;
 	readonly badgeIconUrl: string;

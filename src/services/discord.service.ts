@@ -22,7 +22,11 @@ export async function syncUserDiscordWidget(
 
 		{ type: 1, name: "user_status", value: stats.user_status },
 		{ type: 1, name: "user_join_date", value: stats.user_join_date },
-		{ type: 1, name: "user_presence", value: stats.user_presence },
+		{
+			type: 1,
+			name: "rolimons_rap",
+			value: stats.rolimons_rap.toLocaleString(),
+		},
 	];
 
 	const payload: DiscordWidgetPayload = {
@@ -50,7 +54,7 @@ export async function syncUserDiscordWidget(
 				following: stats.user_following,
 				status: stats.user_status,
 				join_date: stats.user_join_date,
-				presence: stats.user_presence,
+				rolimons_rap: stats.rolimons_rap,
 			},
 			null,
 			2,
