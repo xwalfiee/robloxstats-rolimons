@@ -6,7 +6,6 @@ export interface EnvironmentConfig {
 	readonly discordAppId: string;
 	readonly discordUserId: string;
 	readonly robloxUserId: string;
-	readonly robloxCookie: string;
 }
 
 /**
@@ -14,20 +13,14 @@ export interface EnvironmentConfig {
  * @throws {Error} If mandatory environment configurations are absent or malformed.
  */
 export function loadAndValidateConfig(env: unknown): EnvironmentConfig {
-	const {
-		DISCORD_TOKEN,
-		DISCORD_APP_ID,
-		DISCORD_USER_ID,
-		ROBLOX_USER_ID,
-		ROBLOX_COOKIE,
-	} = env as Record<string, string | undefined>;
+	const { DISCORD_TOKEN, DISCORD_APP_ID, DISCORD_USER_ID, ROBLOX_USER_ID } =
+		env as Record<string, string | undefined>;
 
 	if (
 		!DISCORD_TOKEN ||
 		!DISCORD_APP_ID ||
 		!DISCORD_USER_ID ||
-		!ROBLOX_USER_ID ||
-		!ROBLOX_COOKIE
+		!ROBLOX_USER_ID
 	) {
 		throw new Error(
 			"ConfigurationInitializationException: Missing vital environment variables.",
@@ -39,6 +32,5 @@ export function loadAndValidateConfig(env: unknown): EnvironmentConfig {
 		discordAppId: DISCORD_APP_ID,
 		discordUserId: DISCORD_USER_ID,
 		robloxUserId: ROBLOX_USER_ID,
-		robloxCookie: ROBLOX_COOKIE,
 	};
 }

@@ -17,25 +17,23 @@ export async function fetchProfileStatistics(
 	config: EnvironmentConfig,
 ): Promise<NormalizedRobloxStats> {
 	try {
-		const ROBLOX_COOKIE = config.robloxCookie;
 		const userId = config.robloxUserId;
 
-		// shared client (cookie auth)
+		// shared client
 		const roblox = axios.create({
 			headers: {
-				Cookie: `.ROBLOSECURITY=${ROBLOX_COOKIE}`,
 				"Content-Type": "application/json",
 				Accept: "application/json",
 			},
 		});
 
 		// user info
-		const userRes = await axios.get(`${USERS_BASE_URL}/users/${userId}`);
+		const userRes = await roblox.get(`${USERS_BASE_URL}/users/${userId}`);
 
 		const user = userRes.data;
 
 		// avatar
-		const avatarRes = await axios.get(`${THUMB_BASE_URL}/users/avatar`, {
+		const avatarRes = await roblox.get(`${THUMB_BASE_URL}/users/avatar`, {
 			params: {
 				userIds: userId,
 				size: "720x720",
