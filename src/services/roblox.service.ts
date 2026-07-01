@@ -8,7 +8,7 @@ const PRESENCE_BASE_URL = "https://presence.roblox.com/v1";
 const FRIENDS_BASE_URL = "https://friends.roblox.com/v1";
 const BADGE_BASE_URL =
 	"https://raw.githubusercontent.com/xwalfiee/robloxstats-rolimons/main/assets/badges";
-const ROLIMONS_BASE_URL = "https://vm.xwalfie.dev:3005/rap";
+const ROLIMONS_BASE_URL = "https://vm.xwalfie.dev/rap";
 
 /**
  * Fetches Roblox profile + presence + social stats.
